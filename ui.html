@@ -1,5 +1,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css" />
-<link rel="stylesheet" href="https://github.com/bregydoc/pigma/raw/master/p5light.css" />
+<link rel="stylesheet" href="https://gitcdn.link/repo/bregydoc/pigma/master/p5light.css" />
+<link rel="stylesheet" href="https://gitcdn.link/repo/bregydoc/pigma/master/figma-plugin-ds.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/mode/javascript/javascript.min.js"></script>
+<script src="https://gitcdn.link/repo/bregydoc/pigma/master/figma-plugin-ds.min.js"></script>
+
 <style>
   .wrapper {
     width: 100%;
@@ -12,13 +17,17 @@
   }
   .logo {
     padding: 8px 6px 8px 5px;
-    width: auto;
-    height: 28px;
+    width: 118px;
+    height: auto;
+  }
+  .run-btn {
+    margin-left: auto;
   }
 </style>
 <div class="wrapper">
   <div class="head">
     <img src="https://github.com/bregydoc/pigma/raw/master/pigma.png" alt="pigma-logo" class="logo" />
+    <button class="button button--primary run-btn">Run</button>
   </div>
   <div class="editor">
     <textarea id="container">
@@ -82,8 +91,6 @@ function draw() {
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/mode/javascript/javascript.min.js"></script>
 <script>
   var container = document.getElementById("container");
   var editor = CodeMirror.fromTextArea(container, {
