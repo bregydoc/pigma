@@ -1,10 +1,8 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css" />
-<link rel="stylesheet" href="p5light.css" />
-<div>
-  Hello Pigma
-  <img src="pigma.png" />
-</div>
-<textarea id="container">
+<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+<!-- <head>
+  <script src="sketch.js"></script>
+</head> -->
+<script>
   function setup() {
     createCanvas(710, 400, WEBGL);
   }
@@ -61,14 +59,19 @@
     sphere(70);
     pop();
   }
-</textarea>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/mode/javascript/javascript.min.js"></script>
-<script>
-  var container = document.getElementById("container");
-  var editor = CodeMirror.fromTextArea(container, {
-    lineNumbers: true,
-    mode: "javascript",
-    theme: "p5-light"
-  });
 </script>
+<h2>Rectangle Creator</h2>
+<p>Count: <input id="count" value="5"></p>
+<button id="create">Create</button>
+<button id="cancel">Cancel</button>
+<script>
+
+document.getElementById('create').onclick = () => {
+  const textbox = document.getElementById('count');
+  const count = parseInt(textbox.value, 10);
+  parent.postMessage({ pluginMessage: { type: 'create-rectangles', count } }, '*')
+}
+
+document.getElementById('cancel').onclick = () => {
+  parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*')
+}
