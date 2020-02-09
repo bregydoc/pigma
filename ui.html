@@ -4,7 +4,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/mode/javascript/javascript.min.js"></script>
 <script src="https://gitcdn.link/repo/bregydoc/pigma/master/figma-plugin-ds.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
 <style>
   .wrapper {
     width: 100%;
@@ -14,6 +14,7 @@
   .head {
     display: flex;
     max-height: 58px;
+    align-items: center;
   }
   .logo {
     padding: 8px 6px 8px 5px;
@@ -24,6 +25,37 @@
     margin-left: auto;
   }
 </style>
+<script>
+  window.onmessage = async event => {
+    console.log(event.data);
+    window.parent.postMessage({ pluginMessage: newBytes }, "*");
+  };
+</script>
+<script id="sketch">
+  let diameter;
+  let angle = 0;
+
+  function setup() {
+    createCanvas(710, 400);
+    diameter = height - 10;
+    noStroke();
+    fill(255, 204, 0);
+  }
+
+  function draw() {
+    background(0);
+
+    let d1 = 10 + (sin(angle) * diameter) / 2 + diameter / 2;
+    let d2 = 10 + (sin(angle + PI / 2) * diameter) / 2 + diameter / 2;
+    let d3 = 10 + (sin(angle + PI) * diameter) / 2 + diameter / 2;
+
+    ellipse(0, height / 2, d1, d1);
+    ellipse(width / 2, height / 2, d2, d2);
+    ellipse(width, height / 2, d3, d3);
+
+    angle += 0.02;
+  }
+</script>
 <div class="wrapper">
   <div class="head">
     <img src="https://github.com/bregydoc/pigma/raw/master/pigma.png" alt="pigma-logo" class="logo" />
@@ -31,61 +63,28 @@
   </div>
   <div class="editor">
     <textarea id="container">
+let diameter;
+let angle = 0;
+
 function setup() {
-  createCanvas(710, 400, WEBGL);
+  createCanvas(710, 400);
+  diameter = height - 10;
+  noStroke();
+  fill(255, 204, 0);
 }
 
 function draw() {
-  background(250);
+  background(0);
 
-  translate(-240, -100, 0);
-  normalMaterial();
-  push();
-  rotateZ(frameCount * 0.01);
-  rotateX(frameCount * 0.01);
-  rotateY(frameCount * 0.01);
-  plane(70);
-  pop();
+  let d1 = 10 + (sin(angle) * diameter) / 2 + diameter / 2;
+  let d2 = 10 + (sin(angle + PI / 2) * diameter) / 2 + diameter / 2;
+  let d3 = 10 + (sin(angle + PI) * diameter) / 2 + diameter / 2;
 
-  translate(240, 0, 0);
-  push();
-  rotateZ(frameCount * 0.01);
-  rotateX(frameCount * 0.01);
-  rotateY(frameCount * 0.01);
-  box(70, 70, 70);
-  pop();
+  ellipse(0, height / 2, d1, d1);
+  ellipse(width / 2, height / 2, d2, d2);
+  ellipse(width, height / 2, d3, d3);
 
-  translate(240, 0, 0);
-  push();
-  rotateZ(frameCount * 0.01);
-  rotateX(frameCount * 0.01);
-  rotateY(frameCount * 0.01);
-  cylinder(70, 70);
-  pop();
-
-  translate(-240 * 2, 200, 0);
-  push();
-  rotateZ(frameCount * 0.01);
-  rotateX(frameCount * 0.01);
-  rotateY(frameCount * 0.01);
-  cone(70, 70);
-  pop();
-
-  translate(240, 0, 0);
-  push();
-  rotateZ(frameCount * 0.01);
-  rotateX(frameCount * 0.01);
-  rotateY(frameCount * 0.01);
-  torus(70, 20);
-  pop();
-
-  translate(240, 0, 0);
-  push();
-  rotateZ(frameCount * 0.01);
-  rotateX(frameCount * 0.01);
-  rotateY(frameCount * 0.01);
-  sphere(70);
-  pop();
+  angle += 0.02;
 }
     </textarea>
   </div>
@@ -97,5 +96,14 @@ function draw() {
     lineNumbers: true,
     mode: "javascript",
     theme: "p5-light"
+  });
+
+  var sketch = document.getElementById("sketch");
+
+  editor.on("change", function(instance, obj) {
+    console.log(instance.doc);
+    const code = instance.doc.getValue();
+    sketch.nodeValue = code;
+    console.log(sketch);
   });
 </script>
